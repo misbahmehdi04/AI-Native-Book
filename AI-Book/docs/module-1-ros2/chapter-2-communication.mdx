@@ -1,0 +1,258 @@
+---
+sidebar_position: 3
+title: Chapter 2 - ROS 2 Communication Patterns
+---
+
+# Chapter 2: ROS 2 Communication Patterns
+
+## Learning Objectives
+
+After completing this chapter, you will be able to:
+- Understand the different communication patterns in ROS 2: topics, services, and actions
+- Implement publisher and subscriber nodes using rclpy
+- Explain the differences between communication patterns and when to use each
+- Understand data flow from sensors to actuators in ROS 2 systems
+- Create and run simple publisher/subscriber examples
+
+## Introduction
+
+In the previous chapter, we learned about the fundamental concepts of ROS 2. Now we'll dive deeper into how nodes communicate with each other using different communication patterns. Understanding these patterns is crucial for building effective robotic systems, as each pattern serves different purposes and has distinct characteristics.
+
+## Communication Patterns Overview
+
+ROS 2 provides three primary communication patterns for nodes to interact:
+
+1. **Topics (Publish/Subscribe)**: Asynchronous, one-way communication for streaming data
+2. **Services (Request/Reply)**: Synchronous, two-way communication for request-response interactions
+3. **Actions (Goal/Feedback/Result)**: Asynchronous, goal-oriented communication with status feedback
+
+Each pattern serves different use cases in robotic systems and understanding when to use each is fundamental to effective ROS 2 design.
+
+## Topics: Publish/Subscribe Pattern
+
+Topics are the most common communication pattern in ROS 2. They implement a publish/subscribe model where publishers send messages to a topic and subscribers receive messages from that topic.
+
+### How Topics Work
+
+- **Publishers**: Send messages to a named topic
+- **Subscribers**: Receive messages from a named topic
+- **Messages**: Data structures that are passed between nodes
+- **Asynchronous**: Publishers and subscribers don't need to be synchronized
+- **Many-to-many**: Multiple publishers can publish to the same topic, multiple subscribers can subscribe to the same topic
+
+### Topic Characteristics
+
+- **Fire-and-forget**: Publishers send messages without waiting for acknowledgment
+- **Streaming**: Ideal for continuous data streams like sensor data
+- **Decoupled**: Publishers and subscribers don't need to know about each other
+- **Broadcast**: One message can reach multiple subscribers
+
+### Example: Sensor Data Broadcasting
+
+Sensors like cameras, LIDAR, or IMUs typically publish their data to topics, allowing multiple nodes to consume the same sensor data simultaneously. For example, camera data might be consumed by perception nodes, visualization nodes, and logging nodes.
+
+## Services: Request/Reply Pattern
+
+Services provide synchronous, two-way communication between nodes. A client sends a request and waits for a response from a server.
+
+### How Services Work
+
+- **Service Server**: Provides a specific service, waits for requests
+- **Service Client**: Calls the service, sends a request and waits for a response
+- **Request/Response Messages**: Defined message types for the service interface
+- **Synchronous**: The client waits for the response before continuing
+
+### Service Characteristics
+
+- **Synchronous**: Client blocks until response is received
+- **Request-response**: One request generates one response
+- **Stateless**: Each request is independent
+- **Reliable**: Request is guaranteed to reach the server (if server is available)
+
+### Example: Robot Control Commands
+
+Services are often used for operations that have a clear start and end, like setting robot parameters, executing a specific action, or requesting the robot's current status.
+
+## Actions: Goal/Feedback/Result Pattern
+
+Actions are designed for long-running tasks that provide feedback during execution and return a result when completed.
+
+### How Actions Work
+
+- **Action Server**: Executes long-running goals and provides feedback
+- **Action Client**: Sends goals, receives feedback, and gets final results
+- **Goal**: The task to be executed
+- **Feedback**: Periodic updates on task progress
+- **Result**: Final outcome when the task is completed
+
+### Action Characteristics
+
+- **Asynchronous**: Client doesn't block while the goal is executing
+- **Preemptable**: Goals can be canceled before completion
+- **Feedback**: Continuous updates on progress
+- **Status Tracking**: Clients can monitor goal status
+
+### Example: Navigation Tasks
+
+Actions are perfect for navigation tasks where a robot receives a goal (navigate to location X), provides feedback (current progress), and returns a result (success or failure).
+
+## rclpy: Python Client Library
+
+rclpy is the Python client library for ROS 2 that allows you to create nodes and manage communication patterns.
+
+### Creating a Publisher Node
+
+```python
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+
+class MinimalPublisher(Node):
+
+    def __init__(self):
+        super().__init__('minimal_publisher')
+        self.publisher_ = self.create_publisher(String, 'topic', 10)
+        timer_period = 0.5  # seconds
+        self.timer = self.create_timer(timer_period, self.timer_callback)
+        self.i = 0
+
+    def timer_callback(self):
+        msg = String()
+        msg.data = 'Hello World: %d' % self.i
+        self.publisher_.publish(msg)
+        self.get_logger().info('Publishing: "%s"' % msg.data)
+        self.i += 1
+
+def main(args=None):
+    rclpy.init(args=args)
+    minimal_publisher = MinimalPublisher()
+    rclpy.spin(minimal_publisher)
+    minimal_publisher.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+### Creating a Subscriber Node
+
+```python
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+
+class MinimalSubscriber(Node):
+
+    def __init__(self):
+        super().__init__('minimal_subscriber')
+        self.subscription = self.create_subscription(
+            String,
+            'topic',
+            self.listener_callback,
+            10)
+        self.subscription  # prevent unused variable warning
+
+    def listener_callback(self, msg):
+        self.get_logger().info('I heard: "%s"' % msg.data)
+
+def main(args=None):
+    rclpy.init(args=args)
+    minimal_subscriber = MinimalSubscriber()
+    rclpy.spin(minimal_subscriber)
+    minimal_subscriber.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+## Data Flow from Sensors to Actuators
+
+Understanding data flow is crucial for designing effective robotic systems. In ROS 2, data typically flows through several stages:
+
+![Node Communication Diagram](/img/node-communication.txt "Diagram illustrating the communication patterns in ROS 2: topics for publish/subscribe, services for request/reply, and actions for goal-oriented communication with feedback. Shows data flow from sensors to actuators through various processing nodes.")
+
+### Sensor Data Processing
+
+1. **Raw Sensor Data**: Published by sensor drivers to topics
+2. **Perception Processing**: Nodes process raw data to extract meaningful information
+3. **Decision Making**: AI algorithms make decisions based on processed data
+4. **Actuator Commands**: Commands are sent to actuators via topics, services, or actions
+
+### Example Flow: Object Detection and Grasping
+
+1. **Camera Node**: Publishes image data to `/camera/image_raw`
+2. **Object Detection Node**: Subscribes to image data, detects objects, publishes results to `/detected_objects`
+3. **Planning Node**: Subscribes to detected objects, plans grasp trajectory, sends goal to action server
+4. **Arm Controller**: Executes grasp action and provides feedback
+5. **Gripper Control**: Receives commands to close gripper via service call
+
+## Execution Instructions for Examples
+
+To run the publisher and subscriber examples:
+
+1. Make sure your ROS 2 environment is sourced:
+   ```bash
+   source /opt/ros/humble/setup.bash
+   ```
+
+2. Navigate to the examples directory:
+   ```bash
+   cd docs/module-1-ros2/examples/
+   ```
+
+3. To run the publisher:
+   ```bash
+   python3 simple-publisher.py
+   ```
+
+4. In another terminal, run the subscriber:
+   ```bash
+   python3 simple-subscriber.py
+   ```
+
+You should see the publisher sending messages and the subscriber receiving them.
+
+## When to Use Each Communication Pattern
+
+### Use Topics When:
+- Streaming continuous data (sensors, status)
+- Broadcasting information to multiple nodes
+- No immediate response is required
+- Decoupling publishers and subscribers
+
+### Use Services When:
+- Need a specific response to a request
+- Operation has a clear beginning and end
+- Synchronous behavior is acceptable
+- Request/response pattern fits the use case
+
+### Use Actions When:
+- Long-running operations are involved
+- Feedback during execution is needed
+- Operations might be preempted or canceled
+- Goal-oriented behavior is required
+
+## Summary
+
+In this chapter, we've explored the three main communication patterns in ROS 2:
+- Topics for asynchronous, one-way communication
+- Services for synchronous, request-response communication
+- Actions for goal-oriented communication with feedback
+- The rclpy Python client library for implementing these patterns
+- How data flows from sensors to actuators in robotic systems
+- When to use each communication pattern
+
+These communication patterns form the backbone of ROS 2 applications and mastering them is essential for effective robotic system design.
+
+## Next Steps
+
+Continue to [Chapter 3: Humanoid Modeling with URDF](./chapter-3-urdf-modeling) to learn about robot modeling, or return to [Chapter 1: ROS 2 Fundamentals](./chapter-1-fundamentals) for a refresher on core concepts.
+
+## Self-Assessment Questions
+
+1. What are the three main communication patterns in ROS 2?
+2. When would you use a service instead of a topic?
+3. What is the main difference between actions and services?
+4. Describe the publisher-subscriber pattern in ROS 2.
+5. Give an example of when you would use each communication pattern in a robotic system.

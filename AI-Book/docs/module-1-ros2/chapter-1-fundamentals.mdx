@@ -1,0 +1,200 @@
+---
+sidebar_position: 2
+title: Chapter 1 - ROS 2 Fundamentals
+---
+
+# Chapter 1: ROS 2 Fundamentals
+
+## Learning Objectives
+
+After completing this chapter, you will be able to:
+- Explain the role of ROS 2 in Physical AI
+- Describe the core concepts of nodes, DDS, and the system graph
+- Understand the analogy of ROS 2 as a robotic nervous system
+- Identify how ROS 2 enables communication between AI software and hardware
+
+## Introduction
+
+Welcome to the fundamentals of ROS 2! In this chapter, we'll explore the core concepts that make ROS 2 the backbone of modern robotics applications. ROS 2 (Robot Operating System 2) is not an actual operating system, but rather a middleware framework that provides services designed for a heterogeneous computer cluster - essentially a set of tools, libraries, and conventions that aim to simplify the task of creating complex and robust robot behavior across a wide variety of robot platforms.
+
+## The Role of ROS 2 in Physical AI
+
+ROS 2 serves as the critical bridge between artificial intelligence software and physical robotic hardware. This connection is fundamental to the field of Physical AI, where intelligent systems must interact with the real world through physical actuators and sensors.
+
+![ROS 2 Architecture Diagram](/img/ros2-architecture.txt "Diagram showing the relationship between nodes, DDS (Data Distribution Service), and the system graph in ROS 2, illustrating ROS 2 as a 'robotic nervous system' connecting AI software to physical hardware")
+
+### AI-Hardware Integration
+
+In traditional AI applications, algorithms operate on data within digital systems. However, in robotics, AI systems must:
+- Receive input from physical sensors (cameras, LIDAR, IMUs, etc.)
+- Process this information to make intelligent decisions
+- Send commands to physical actuators (motors, servos, grippers, etc.)
+- Adapt to the unpredictable nature of the physical world
+
+ROS 2 facilitates this integration by providing standardized interfaces and communication patterns that allow AI algorithms to interact with hardware without needing to understand the low-level details of each component.
+
+### Middleware Architecture
+
+ROS 2 uses a middleware architecture based on the Data Distribution Service (DDS) standard. This provides:
+
+- **Language Independence**: Write nodes in different programming languages that can communicate seamlessly
+- **Platform Independence**: Run on different operating systems and hardware architectures
+- **Distributed Architecture**: Allow nodes to run on different machines while maintaining transparent communication
+
+## Nodes: The Building Blocks of ROS 2
+
+Nodes are the fundamental execution units in ROS 2. Think of them as individual processes that perform specific tasks within your robotic system.
+
+### What is a Node?
+
+A node in ROS 2 is:
+- An independent process that performs computation
+- A container for publishers, subscribers, services, and other communication elements
+- A modular component that can be developed and tested independently
+- A participant in the ROS 2 communication system
+
+### Node Characteristics
+
+Each node has specific characteristics that define its behavior:
+
+- **Node Name**: A unique identifier within the ROS 2 system
+- **Node Namespace**: A way to organize nodes hierarchically
+- **Parameters**: Configuration values that can be adjusted at runtime
+- **Lifecycle**: A managed state system (optional but powerful)
+
+### Example Node Structure
+
+Here's a simple example of a ROS 2 node structure in Python:
+
+```python
+import rclpy
+from rclpy.node import Node
+
+class MinimalPublisher(Node):
+
+    def __init__(self):
+        super().__init__('minimal_publisher')
+        self.publisher_ = self.create_publisher(String, 'topic', 10)
+        timer_period = 0.5  # seconds
+        self.timer = self.create_timer(timer_period, self.timer_callback)
+        self.i = 0
+
+    def timer_callback(self):
+        msg = String()
+        msg.data = 'Hello World: %d' % self.i
+        self.publisher_.publish(msg)
+        self.get_logger().info('Publishing: "%s"' % msg.data)
+        self.i += 1
+```
+
+## DDS: Data Distribution Service
+
+DDS (Data Distribution Service) is the underlying middleware standard that powers ROS 2's communication system. Understanding DDS is crucial to grasping how ROS 2 achieves its distributed, real-time capabilities.
+
+### DDS Core Concepts
+
+DDS provides several key capabilities:
+
+- **Data-Centricity**: Focus on the data itself rather than the communicating applications
+- **Quality of Service (QoS)**: Configurable policies for reliability, durability, and performance
+- **Automatic Discovery**: Nodes automatically find each other on the network
+- **Real-time Performance**: Guaranteed timing and reliability for critical systems
+
+### QoS Policies in DDS
+
+ROS 2 exposes DDS QoS policies that allow you to fine-tune communication behavior:
+
+- **Reliability**: Best effort vs. reliable delivery
+- **Durability**: Volatile vs. transient local data persistence
+- **History**: Keep all samples vs. keep last N samples
+- **Deadline**: Maximum time between sample updates
+- **Liveliness**: How to determine if a participant is alive
+
+These policies are essential for building robust robotic systems that can operate reliably in real-world conditions.
+
+## The System Graph
+
+The system graph is a representation of all nodes, topics, services, and actions in a running ROS 2 system. It provides visibility into the communication structure of your robotic application.
+
+### Components of the System Graph
+
+The system graph includes:
+
+- **Nodes**: All active processes participating in the ROS 2 network
+- **Topics**: Communication channels for publisher-subscriber patterns
+- **Services**: Communication channels for request-reply patterns
+- **Actions**: Communication channels for goal-oriented interactions
+- **Parameters**: Configuration values accessible to nodes
+
+### Visualizing the System Graph
+
+ROS 2 provides tools to visualize the system graph, which is invaluable for:
+
+- Debugging communication issues
+- Understanding system architecture
+- Verifying correct node connections
+- Monitoring system health
+
+You can view the system graph using the `ros2 node list`, `ros2 topic list`, and `ros2 graph` commands.
+
+## ROS 2 as a Robotic Nervous System
+
+The analogy of ROS 2 as a "robotic nervous system" is particularly apt for understanding its role in physical AI systems.
+
+### Sensory Input (Sensors)
+
+Just as the nervous system receives input from sensory organs, ROS 2 nodes receive data from:
+- Cameras (vision)
+- LIDAR (spatial awareness)
+- IMUs (inertial measurement)
+- Force/torque sensors (physical interaction)
+- GPS (location)
+
+### Processing and Decision Making (AI/Control)
+
+Similar to how the brain processes sensory information, ROS 2 nodes perform:
+- Perception processing
+- Path planning
+- Control algorithms
+- Decision making
+- State management
+
+### Motor Output (Actuators)
+
+Like the nervous system controlling muscles, ROS 2 nodes command:
+- Motor controllers
+- Servo drivers
+- Grippers and end effectors
+- Navigation systems
+- Safety systems
+
+### Communication Pathways
+
+The nervous system's neural pathways are analogous to ROS 2's:
+- Topics (sensory and motor pathways)
+- Services (reflexive responses)
+- Actions (complex coordinated movements)
+- Parameters (regulatory settings)
+
+## Self-Assessment Questions
+
+1. What is the primary role of ROS 2 in Physical AI systems?
+2. Name three key characteristics of a ROS 2 node.
+3. What does DDS stand for and why is it important in ROS 2?
+4. How does the system graph help in understanding a robotic system?
+5. Explain the nervous system analogy for ROS 2 communication.
+
+## Summary
+
+In this chapter, we've covered the fundamental concepts of ROS 2:
+- The role of ROS 2 in connecting AI software to physical hardware
+- The concept of nodes as the basic execution units
+- The importance of DDS as the underlying middleware
+- The system graph for understanding communication topology
+- The nervous system analogy for conceptual understanding
+
+These fundamentals provide the foundation for understanding more advanced ROS 2 concepts in the following chapters.
+
+## Next Steps
+
+Continue to [Chapter 2: ROS 2 Communication Patterns](./chapter-2-communication) to learn about the different communication mechanisms in ROS 2, or proceed to [Chapter 3: Humanoid Modeling with URDF](./chapter-3-urdf-modeling) to understand how to model robots for use with ROS 2.

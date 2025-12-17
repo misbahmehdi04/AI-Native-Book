@@ -1,0 +1,9 @@
+# Node Communication Diagram
+
+This diagram illustrates the communication patterns in ROS 2:
+
+- Topics: Publish/subscribe communication pattern
+- Services: Request/reply communication pattern
+- Actions: Goal-oriented communication with feedback
+- Data flow from sensors to actuators
+- Example of publisher/subscriber pattern

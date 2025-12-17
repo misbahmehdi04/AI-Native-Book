@@ -1,0 +1,8 @@
+# ROS 2 Architecture Diagram
+
+This diagram shows the relationship between nodes, DDS (Data Distribution Service), and the system graph in ROS 2.
+
+- Nodes: Independent processes that communicate with each other
+- DDS: Middleware that enables communication between nodes
+- System Graph: Visualization of node connections and communication patterns
+- ROS 2 as a "robotic nervous system" connecting AI software to physical hardware

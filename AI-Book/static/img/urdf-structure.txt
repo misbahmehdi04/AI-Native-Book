@@ -1,0 +1,9 @@
+# URDF Structure Diagram
+
+This diagram shows the structure of URDF (Unified Robot Description Format):
+
+- Links: Rigid parts of the robot structure
+- Joints: Connections between links that allow movement
+- Frames: Coordinate systems attached to links
+- How URDF models connect to ROS 2 control systems
+- Example humanoid robot structure

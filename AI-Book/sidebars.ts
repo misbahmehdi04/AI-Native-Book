@@ -28,6 +28,16 @@ const sidebars: SidebarsConfig = {
         'module-1-ros2/chapter-3-urdf-modeling',
       ],
     },
+    {
+      type: 'category',
+      label: 'Module 2: Digital Twin Simulation (Gazebo & Unity)',
+      items: [
+        'module-2-digital-twin/index',
+        'module-2-digital-twin/physics-simulation-gazebo',
+        'module-2-digital-twin/sensor-simulation',
+        'module-2-digital-twin/unity-hri-concepts',
+      ],
+    },
   ],
 };
 

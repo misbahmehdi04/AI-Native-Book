@@ -1,8 +1,8 @@
 ---
-title: Chapter 3 - Nav2 for Humanoid Navigation
-sidebar_label: Nav2 Navigation
-description: Learn about Nav2 for humanoid navigation, including path planning and obstacle avoidance techniques specifically for bipedal robots.
-keywords: [nvidia, isaac, nav2, navigation, path planning, obstacle avoidance, humanoid, robotics]
+title : Chapter 3 - Nav2 for Humanoid Navigation
+sidebar_label : Nav2 Navigation
+description : Learn about Nav2 for humanoid navigation, including path planning and obstacle avoidance techniques specifically for bipedal robots.
+keywords : [nvidia, isaac, nav2, navigation, path planning, obstacle avoidance, humanoid, robotics]
 ---
 
 # Chapter 3 - Nav2 for Humanoid Navigation

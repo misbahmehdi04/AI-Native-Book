@@ -23,9 +23,19 @@ This module teaches physics-based simulation and digital twin creation for human
 
 By the end of this module, you will understand:
 - How physics simulation works in Gazebo for humanoid robots
-- How different sensors are simulated in virtual environments
+- How different sensors (LiDAR, depth cameras, IMUs) are simulated in virtual environments
 - How to create high-fidelity environments in Unity for digital twins
-- Human-Robot Interaction concepts in simulation contexts
+- Human-Robot Interaction (HRI) concepts in simulation contexts
+
+## Module Overview
+
+Digital twin simulation is a critical technology for robotics development, allowing engineers to test and validate robot behaviors in safe, controlled virtual environments before deploying to physical hardware. This module covers the three fundamental pillars of digital twin creation:
+
+1. **Physics Simulation**: Understanding how to model real-world physics in virtual environments using Gazebo
+2. **Sensor Simulation**: Learning how to simulate various sensors that robots use for perception
+3. **High-fidelity Environments**: Creating realistic 3D environments and designing effective human-robot interactions using Unity
+
+These concepts work together to create comprehensive simulation environments that can accurately represent real-world scenarios for robot testing and development.
 
 ## Chapters
 
@@ -42,3 +52,10 @@ By the end of this module, you will understand:
 - Each chapter builds on the previous one
 - Review concepts before proceeding to ensure understanding
 - The module is designed to be completed in 3-4 hours total
+- Each chapter includes exercises to reinforce learning
+
+## What's NOT Covered
+This module focuses specifically on simulation concepts and does NOT include:
+- Physical robot deployment
+- Hardware integration
+- Advanced AI perception or planning systems

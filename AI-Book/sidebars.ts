@@ -38,6 +38,25 @@ const sidebars: SidebarsConfig = {
         'module-2-digital-twin/unity-hri-concepts',
       ],
     },
+    {
+      type: 'category',
+      label: 'Module 3: The AI-Robot Brain (NVIDIA Isaac)',
+      items: [
+        'module-3-isaac-robot-brain/nvidia-isaac-sim-fundamentals',
+        'module-3-isaac-robot-brain/isaac-ros-accelerated-perception',
+        'module-3-isaac-robot-brain/nav2-humanoid-navigation',
+        'module-3-isaac-robot-brain/assessment',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Module 4: Vision-Language-Action (VLA)',
+      items: [
+        'module-4-vla/voice-to-action-interfaces',
+        'module-4-vla/cognitive-planning-with-llms',
+        'module-4-vla/capstone-autonomous-humanoid',
+      ],
+    },
   ],
 };
 

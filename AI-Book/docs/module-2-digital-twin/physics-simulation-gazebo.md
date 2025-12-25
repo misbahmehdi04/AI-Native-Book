@@ -282,3 +282,10 @@ These concepts form the foundation for creating realistic physics simulations in
 ## Next Steps
 
 Continue to the next chapter to learn about sensor simulation in robotics environments, where you'll explore how different sensors (LiDAR, depth cameras, IMUs) work in virtual environments.
+
+## Related Concepts
+
+- **Sensor Simulation**: The physics properties you've learned (like object interactions and collisions) directly affect how sensors perceive the environment. Understanding physics is crucial for interpreting sensor data.
+- **Unity Environments**: The concepts of collision detection and joint constraints are also important in Unity for creating realistic digital twin environments. The same physical principles apply across different simulation platforms.
+
+For a complete understanding of digital twin simulation, consider how the physics concepts in this chapter integrate with the sensor simulation in the next chapter and the Unity environment creation in the final chapter.

@@ -42,11 +42,11 @@ After completing this module, you will be able to:
 
 This module is organized into three comprehensive chapters:
 
-### [Chapter 1: ROS 2 Fundamentals](./chapter-1-fundamentals)
+### [Chapter 1: ROS 2 Fundamentals](./chapter-1-fundamentals.mdx)
 Learn the core concepts of ROS 2, including its role in Physical AI, nodes, DDS, and the system graph. Understand the analogy of ROS 2 as a robotic nervous system.
 
-### [Chapter 2: ROS 2 Communication Patterns](./chapter-2-communication)
+### [Chapter 2: ROS 2 Communication Patterns](./chapter-2-communication.mdx)
 Master the communication mechanisms in ROS 2: nodes, topics, services, and actions. Work with rclpy-based publisher/subscriber examples and understand data flow from sensors to actuators.
 
-### [Chapter 3: Humanoid Modeling with URDF](./chapter-3-urdf-modeling)
+### [Chapter 3: Humanoid Modeling with URDF](./chapter-3-urdf-modeling.mdx)
 Explore URDF purpose and structure, learn about links, joints, and frames, and connect URDF models to ROS 2 control systems.

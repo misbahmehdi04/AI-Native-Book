@@ -15,10 +15,12 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://ai-native-robotics-book.vercel.app', // Replace with your actual domain
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
+  // Add trailing slash handling for Vercel deployment
+  trailingSlash: false, // Set to false to remove trailing slashes, or true to enforce them
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
